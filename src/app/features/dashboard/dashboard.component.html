@@ -11,7 +11,7 @@
         <mat-icon class="text-4xl opacity-80">account_balance_wallet</mat-icon>
         <p class="text-lg mt-2 opacity-80">Current Balance</p>
         <p class="text-4xl font-bold mt-1">
-          {{ (currentBalance$ | async) | currency:'BDT':'symbol':'1.2-2' }}
+          {{ (currentBalance$ | async) | takaCurrency }}
         </p>
       </div>
     </mat-card>
@@ -44,8 +44,8 @@
 
   <!-- This part remains the same -->
   <div class="mt-8 text-center">
-      <button mat-stroked-button color="primary" routerLink="/transactions">
-          View All Transactions
-      </button>
+    <button mat-stroked-button color="primary" routerLink="/transactions">
+      View All Transactions
+    </button>
   </div>
 </div>

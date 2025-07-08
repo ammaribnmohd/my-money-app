@@ -17,6 +17,13 @@
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>Amount (BDT)</mat-label>
       <input matInput type="number" formControlName="amount" placeholder="e.g., 500">
+      <mat-error *ngIf="transactionForm.get('amount')?.hasError('required')">
+        Amount is required.
+      </mat-error>
+      <mat-error *ngIf="transactionForm.get('amount')?.hasError('min')">
+        Amount must be greater than 0.
+      </mat-error>
+
     </mat-form-field>
 
     <!-- Category Select Dropdown -->
@@ -28,6 +35,9 @@
           {{ category.name }}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="transactionForm.get('categoryId')?.hasError('required')">
+        Please select a category.
+      </mat-error>
     </mat-form-field>
 
     <!-- Date Picker -->

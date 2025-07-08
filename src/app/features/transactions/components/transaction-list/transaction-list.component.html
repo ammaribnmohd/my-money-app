@@ -30,10 +30,26 @@
         <span *ngIf="transaction.type === 'income'">+</span>
         <span *ngIf="transaction.type === 'expense'">-</span>
         <!-- This is a built-in Angular pipe to format currency. We'll make a custom one later. -->
-        {{ transaction.amount | currency:'BDT':'symbol':'1.2-2' }}
+        {{ transaction.amount | takaCurrency }}
       </p>
       <!-- This is a built-in Angular pipe to format the date nicely -->
       <p class="text-sm text-gray-500">{{ transaction.date | date:'dd MMM yyyy' }}</p>
     </div>
+    <div>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onEdit(transaction)">
+          <mat-icon>edit</mat-icon>
+          <span>Edit</span>
+        </button>
+        <button mat-menu-item (click)="onDelete(transaction.id)">
+          <mat-icon color="warn">delete</mat-icon>
+          <span class="text-warn">Delete</span>
+        </button>
+      </mat-menu>
+    </div>
+
   </mat-card>
 </div>

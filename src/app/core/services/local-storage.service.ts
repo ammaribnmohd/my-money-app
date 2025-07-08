@@ -83,6 +83,26 @@ export class LocalStorageService {
     this._appData$.next(newData);
   }
 
+
+  updateTransaction(updatedTransaction: Transaction): void {
+    const currentData = this._appData$.getValue();
+    const updatedTransactions = currentData.transactions.map(t =>
+      t.id === updatedTransaction.id ? updatedTransaction : t
+    );
+    this.updateAppData({
+      ...currentData,
+      transactions: updatedTransactions
+    });
+  }
+
+   deleteTransaction(transactionId: string): void {
+    const currentData = this._appData$.getValue();
+    const filteredTransactions = currentData.transactions.filter(t => t.id !== transactionId);
+    this.updateAppData({
+      ...currentData,
+      transactions: filteredTransactions
+    });
+  }
   /**
    * Adds a new category.
    */

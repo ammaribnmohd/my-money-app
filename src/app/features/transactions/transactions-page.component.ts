@@ -4,6 +4,7 @@ import { Transaction, Category } from '../../core/models/app-models';
 import { LocalStorageService } from '../../core/services/local-storage.service';
 import { TransactionFormComponent } from './components/transaction-form/transaction-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-transactions-page',
@@ -18,7 +19,8 @@ export class TransactionsPageComponent implements OnInit {
 
   constructor(
     private localStorageService: LocalStorageService,
-    private dialog: MatDialog // Inject the MatDialog service
+    private dialog: MatDialog ,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -54,5 +56,32 @@ export class TransactionsPageComponent implements OnInit {
         this.localStorageService.addTransaction(result);
       }
     });
+  }
+
+   onEditTransaction(transaction: Transaction): void {
+    const dialogRef = this.dialog.open(TransactionFormComponent, {
+      width: '400px',
+      data: {
+        // Pass the specific transaction to be edited
+        transaction: transaction,
+        categories: this.allCategories
+      }
+    });
+
+    dialogRef.afterClosed().pipe(first()).subscribe(result => {
+      if (result) {
+        // The form returns the updated data, but we need the original ID.
+        const updatedTransaction: Transaction = { ...transaction, ...result };
+        this.localStorageService.updateTransaction(updatedTransaction);
+        this.snackBar.open('Transaction updated!', 'Close', { duration: 3000 });
+      }
+    });
+  }
+  
+  onDeleteTransaction(transactionId: string): void {
+    if (confirm('Are you sure you want to delete this transaction? This cannot be undone.')) {
+      this.localStorageService.deleteTransaction(transactionId);
+      this.snackBar.open('Transaction deleted.', 'Close', { duration: 3000 });
+    }
   }
 }
