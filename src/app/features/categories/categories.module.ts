@@ -10,11 +10,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { CategoryFormComponent } from './components/category-form/category-form.component';
 
 
 @NgModule({
   declarations: [
-    CategoriesComponent
+    CategoriesComponent,
+    CategoryFormComponent
   ],
   imports: [
     CommonModule,
