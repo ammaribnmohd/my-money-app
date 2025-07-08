@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+  NO @use '@angular/material' here.
+  NO theme definitions.
+  The theme is now loaded from angular.json.
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global App Styles */
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  /* Use Roboto, the default font for the indigo-pink theme */
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

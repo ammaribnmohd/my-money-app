@@ -1,0 +1,39 @@
+<div class="space-y-3">
+  <!-- This card will ONLY show up if the transactions array is empty -->
+  <mat-card *ngIf="transactions.length === 0" class="text-center p-8 border rounded-lg">
+    <p class="text-gray-500">No transactions yet. Add your first one!</p>
+  </mat-card>
+
+  <!-- This loop will create a card for each transaction in the array -->
+  <mat-card *ngFor="let transaction of transactions" class="flex items-center p-3 border rounded-lg shadow-sm">
+    <!-- Category Icon on the left -->
+    <div class="flex-shrink-0 mr-4">
+      <!-- We use the helper function to find the category's icon and color -->
+      <mat-icon [style.color]="getCategory(transaction.categoryId)?.color || '#3F51B5'">
+        {{ getCategory(transaction.categoryId)?.icon || 'category' }}
+      </mat-icon>
+    </div>
+
+    <!-- Middle section with Category Name and Description -->
+    <div class="flex-grow">
+      <p class="font-bold text-gray-800">{{ getCategory(transaction.categoryId)?.name || 'Uncategorized' }}</p>
+      <p class="text-sm text-gray-500">{{ transaction.description || 'No description' }}</p>
+    </div>
+
+    <!-- Right section with Amount and Date -->
+    <div class="text-right flex-shrink-0 ml-4">
+      <!-- We use ngClass to apply different text colors for income vs. expense -->
+      <p class="font-bold text-lg" [ngClass]="{
+        'text-green-600': transaction.type === 'income',
+        'text-red-600': transaction.type === 'expense'
+      }">
+        <span *ngIf="transaction.type === 'income'">+</span>
+        <span *ngIf="transaction.type === 'expense'">-</span>
+        <!-- This is a built-in Angular pipe to format currency. We'll make a custom one later. -->
+        {{ transaction.amount | currency:'BDT':'symbol':'1.2-2' }}
+      </p>
+      <!-- This is a built-in Angular pipe to format the date nicely -->
+      <p class="text-sm text-gray-500">{{ transaction.date | date:'dd MMM yyyy' }}</p>
+    </div>
+  </mat-card>
+</div>

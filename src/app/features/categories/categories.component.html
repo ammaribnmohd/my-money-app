@@ -1,0 +1,59 @@
+<div class="p-4 md:p-6">
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">Manage Categories</h1>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <!-- Expense Categories Card -->
+    <mat-card>
+      <mat-card-header class="!flex justify-between items-center">
+        <mat-card-title>Expense Categories</mat-card-title>
+        <button mat-icon-button color="primary" (click)="addCategory('expense')" matTooltip="Add Expense Category">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list *ngIf="(expenseCategories$ | async) as categories">
+          <div *ngIf="categories.length === 0" class="text-center text-gray-500 p-4">No expense categories yet.</div>
+          <ng-container *ngFor="let category of categories; let last = last">
+            <mat-list-item>
+              <mat-icon matListItemIcon [style.color]="category.color">{{ category.icon || 'category' }}</mat-icon>
+              <div matListItemTitle>{{ category.name }}</div>
+              <div matListItemMeta class="flex items-center">
+                <button mat-icon-button (click)="editCategory(category)"><mat-icon>edit</mat-icon></button>
+                <button mat-icon-button color="warn" (click)="deleteCategory(category)"><mat-icon>delete</mat-icon></button>
+              </div>
+            </mat-list-item>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Income Categories Card -->
+    <mat-card>
+      <mat-card-header class="!flex justify-between items-center">
+        <mat-card-title>Income Categories</mat-card-title>
+        <button mat-icon-button color="primary" (click)="addCategory('income')" matTooltip="Add Income Category">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list *ngIf="(incomeCategories$ | async) as categories">
+          <div *ngIf="categories.length === 0" class="text-center text-gray-500 p-4">No income categories yet.</div>
+          <ng-container *ngFor="let category of categories; let last = last">
+            <mat-list-item>
+              <mat-icon matListItemIcon [style.color]="category.color">{{ category.icon || 'category' }}</mat-icon>
+              <div matListItemTitle>{{ category.name }}</div>
+              <div matListItemMeta class="flex items-center">
+                <button mat-icon-button (click)="editCategory(category)"><mat-icon>edit</mat-icon></button>
+                <button mat-icon-button color="warn" (click)="deleteCategory(category)"><mat-icon>delete</mat-icon></button>
+              </div>
+            </mat-list-item>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

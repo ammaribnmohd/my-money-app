@@ -1,0 +1,51 @@
+<div class="p-4 md:p-6">
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">Dashboard</h1>
+
+  <!-- Grid layout for our summary cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Current Balance Card -->
+    <!-- CHANGE: We remove padding from the card (p-0) and put a styled div inside. -->
+    <mat-card class="p-0 shadow-lg rounded-xl overflow-hidden">
+      <div class="p-6 flex flex-col items-center justify-center bg-primary text-white">
+        <mat-icon class="text-4xl opacity-80">account_balance_wallet</mat-icon>
+        <p class="text-lg mt-2 opacity-80">Current Balance</p>
+        <p class="text-4xl font-bold mt-1">
+          {{ (currentBalance$ | async) | currency:'BDT':'symbol':'1.2-2' }}
+        </p>
+      </div>
+    </mat-card>
+
+    <!-- Total Income Card -->
+    <!-- CHANGE: Same pattern here. p-0 on the card, styled div inside. -->
+    <mat-card class="p-0 shadow-lg rounded-xl overflow-hidden">
+      <div class="p-6 flex flex-col items-center justify-center bg-success text-white">
+        <mat-icon class="text-4xl opacity-80">arrow_upward</mat-icon>
+        <p class="text-lg mt-2 opacity-80">Total Income</p>
+        <p class="text-4xl font-bold mt-1">
+          {{ (totalIncome$ | async) | currency:'BDT':'symbol':'1.2-2' }}
+        </p>
+      </div>
+    </mat-card>
+
+    <!-- Total Expense Card -->
+    <!-- CHANGE: And the same pattern for the last card. -->
+    <mat-card class="p-0 shadow-lg rounded-xl overflow-hidden">
+      <div class="p-6 flex flex-col items-center justify-center bg-warn text-white">
+        <mat-icon class="text-4xl opacity-80">arrow_downward</mat-icon>
+        <p class="text-lg mt-2 opacity-80">Total Expense</p>
+        <p class="text-4xl font-bold mt-1">
+          {{ (totalExpense$ | async) | currency:'BDT':'symbol':'1.2-2' }}
+        </p>
+      </div>
+    </mat-card>
+
+  </div>
+
+  <!-- This part remains the same -->
+  <div class="mt-8 text-center">
+      <button mat-stroked-button color="primary" routerLink="/transactions">
+          View All Transactions
+      </button>
+  </div>
+</div>
