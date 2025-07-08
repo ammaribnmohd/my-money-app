@@ -3,12 +3,15 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
+import { SharedModule } from '../../shared/shared.module';
 
-// --- ADD THESE IMPORTS ---
+// Material Imports
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { SharedModule } from '../../shared/shared.module';
+
+// Charting Library Import
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -18,10 +21,11 @@ import { SharedModule } from '../../shared/shared.module';
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
-    // --- ADD THE MODULES HERE ---
     MatCardModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    NgxChartsModule
   ]
+  // The 'providers' array has been completely removed to fix the blank screen error.
 })
 export class DashboardModule { }

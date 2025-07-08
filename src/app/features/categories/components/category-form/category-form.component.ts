@@ -1,11 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Category } from '../../../../core/models/app-models';
+
+// This interface defines the data we MUST pass when opening the dialog
+export interface CategoryFormData {
+  category?: Category; // Optional, used for editing
+  type: 'income' | 'expense';
+}
 
 @Component({
   selector: 'app-category-form',
   standalone: false,
   templateUrl: './category-form.component.html',
-  styleUrl: './category-form.component.scss'
+  styleUrls: ['./category-form.component.scss']
 })
-export class CategoryFormComponent {
+export class CategoryFormComponent implements OnInit {
+  categoryForm: FormGroup;
 
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<CategoryFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: CategoryFormData
+  ) {
+    this.categoryForm = this.fb.group({
+      name: ['', Validators.required],
+      icon: [''], // Optional
+      color: ['#3F51B5'] // Optional, default to primary color
+    });
+  }
+
+  ngOnInit(): void {
+    // If we are editing, patch the form with the existing category's data
+    if (this.data.category) {
+      this.categoryForm.patchValue(this.data.category);
+    }
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  onSave(): void {
+    if (this.categoryForm.invalid) {
+      return;
+    }
+    // Close the dialog and pass back the form data
+    this.dialogRef.close(this.categoryForm.value);
+  }
 }
