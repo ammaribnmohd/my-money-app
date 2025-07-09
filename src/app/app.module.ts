@@ -20,7 +20,7 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    // --- ADD THE MODULES HERE ---
+  
     MatToolbarModule,
     MatSidenavModule,
     MatIconModule,

@@ -9,7 +9,4 @@
   <app-transaction-list [transactions]="(filteredTransactions$ | async) || []"
     [categories]="(categories$ | async) || []" (editTransaction)="onEditTransaction($event)"
     (deleteTransaction)="onDeleteTransaction($event)"></app-transaction-list>
-
-  <!-- Floating Action Button to add a new transaction -->
-
 </div>

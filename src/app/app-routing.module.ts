@@ -13,8 +13,6 @@ const routes: Routes = [
     loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   { path: 'categories', loadChildren: () => import('./features/categories/categories.module').then(m => m.CategoriesModule) },
-  // This is a "wildcard" route. If the user navigates to a URL that doesn't exist,
-  // it will redirect them to the dashboard.
   { path: '**', redirectTo: 'dashboard' }
 ];
 

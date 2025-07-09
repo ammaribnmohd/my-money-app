@@ -9,7 +9,7 @@ export interface TransactionFilters {
 
 @Component({
   selector: 'app-transaction-filter',
-  standalone: false, // This is not a standalone component
+  standalone: false,
   templateUrl: './transaction-filter.component.html',
   styleUrls: ['./transaction-filter.component.scss']
 })
@@ -26,7 +26,7 @@ export class TransactionFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Every time a value in the form changes, emit the new value to the parent.
+    
     this.filterForm.valueChanges.pipe(
       takeUntil(this.destroy$)
     ).subscribe(value => {

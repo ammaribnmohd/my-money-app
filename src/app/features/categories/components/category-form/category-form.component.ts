@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Category } from '../../../../core/models/app-models';
 
-// This interface defines the data we MUST pass when opening the dialog
+
 export interface CategoryFormData {
   category?: Category; // Optional, used for editing
   type: 'income' | 'expense';
@@ -25,8 +25,8 @@ export class CategoryFormComponent implements OnInit {
   ) {
     this.categoryForm = this.fb.group({
       name: ['', Validators.required],
-      icon: [''], // Optional
-      color: ['#3F51B5'] // Optional, default to primary color
+      icon: [''], 
+      color: ['#3F51B5'] 
     });
   }
 

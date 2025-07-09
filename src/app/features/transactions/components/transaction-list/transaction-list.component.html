@@ -18,7 +18,6 @@
 
       <!-- Right section with Amount and Date -->
       <div class="text-right flex-shrink-0 ml-4">
-        <!-- We use ngClass to apply different text colors for income vs. expense -->
         <p class="font-bold text-lg" [ngClass]="{
           'text-green-600': transaction.type === 'income',
           'text-red-600': transaction.type === 'expense'
@@ -29,10 +28,10 @@
           @if (transaction.type === 'expense') {
             <span>-</span>
           }
-          <!-- This is a built-in Angular pipe to format currency. We'll make a custom one later. -->
+          <!-- Angular pipe to format currency. We'll make a custom one later. -->
           {{ transaction.amount | takaCurrency }}
         </p>
-        <!-- This is a built-in Angular pipe to format the date nicely -->
+        <!-- Angular pipe to format the date nicely -->
         <p class="text-sm text-gray-500">{{ transaction.date | date:'dd MMM yyyy' }}</p>
       </div>
       <div>

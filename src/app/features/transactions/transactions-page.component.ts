@@ -20,7 +20,7 @@ import {
 export class TransactionsPageComponent implements OnInit {
   filteredTransactions$!: Observable<Transaction[]>;
   categories$!: Observable<Category[]>;
-  allCategories: Category[] = []; // A local copy of categories to pass to the dialog
+  allCategories: Category[] = []; 
 
   private filters$ = new BehaviorSubject<TransactionFilters>({
     type: 'all',
@@ -38,12 +38,10 @@ export class TransactionsPageComponent implements OnInit {
     const transactions$ = appData$.pipe(map((data) => data.transactions));
     this.categories$ = appData$.pipe(map((data) => data.categories));
 
-    // Keep a non-observable copy of categories for the dialog
     this.categories$.subscribe(
       (categories) => (this.allCategories = categories)
     );
 
-    // This is the magic: combine the latest transactions with the latest filters
     this.filteredTransactions$ = combineLatest([
       transactions$,
       this.filters$,
@@ -63,7 +61,7 @@ export class TransactionsPageComponent implements OnInit {
         if (filters.dateRange !== 'all') {
           const today = new Date();
           if (filters.dateRange === 'thisMonth') {
-            const thisMonth = today.toISOString().substring(0, 7); // "YYYY-MM"
+            const thisMonth = today.toISOString().substring(0, 7); 
             filteredTransactions = filteredTransactions.filter((t) =>
               t.date.startsWith(thisMonth)
             );
@@ -88,21 +86,17 @@ export class TransactionsPageComponent implements OnInit {
   }
 
   openAddTransactionDialog(): void {
-    // Open the dialog, passing our TransactionFormComponent as the content.
     const dialogRef = this.dialog.open(TransactionFormComponent, {
       width: '400px',
       data: {
-        // We pass the list of all categories to the dialog form.
         categories: this.allCategories,
       },
     });
 
-    // Subscribe to the 'afterClosed' event. This runs when the dialog is closed.
     dialogRef
       .afterClosed()
       .pipe(first())
       .subscribe((result) => {
-        // 'result' will be the form data if the user clicked "Save", or undefined if they clicked "Cancel".
         if (result) {
           this.localStorageService.addTransaction(result);
           this.snackBar.open('Transaction Added!', 'Close', { duration: 3000 });
@@ -114,7 +108,7 @@ export class TransactionsPageComponent implements OnInit {
     const dialogRef = this.dialog.open(TransactionFormComponent, {
       width: '400px',
       data: {
-        // Pass the specific transaction to be edited
+        
         transaction: transaction,
         categories: this.allCategories,
       },
@@ -125,7 +119,7 @@ export class TransactionsPageComponent implements OnInit {
       .pipe(first())
       .subscribe((result) => {
         if (result) {
-          // The form returns the updated data, but we need the original ID.
+         
           const updatedTransaction: Transaction = { ...transaction, ...result };
           this.localStorageService.updateTransaction(updatedTransaction);
           this.snackBar.open('Transaction updated!', 'Close', {
@@ -152,7 +146,7 @@ export class TransactionsPageComponent implements OnInit {
       .afterClosed()
       .pipe(first())
       .subscribe((result) => {
-        // The dialog emits 'true' if the user clicked "Delete"
+      
         if (result) {
           this.localStorageService.deleteTransaction(transactionId);
           this.snackBar.open('Transaction deleted.', 'Close', {

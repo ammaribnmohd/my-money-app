@@ -10,7 +10,7 @@ export interface ConfirmationDialogData {
 
 @Component({
   selector: 'app-confirmation-dialog',
-  standalone: false, // This is not a standalone component; it relies on Angular Material.
+  standalone: false, 
   templateUrl: './confirmation-dialog.component.html',
   styleUrls: ['./confirmation-dialog.component.scss']
 })

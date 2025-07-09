@@ -26,6 +26,6 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     MatButtonModule,
     NgxChartsModule
   ]
-  // The 'providers' array has been completely removed to fix the blank screen error.
+  
 })
 export class DashboardModule { }

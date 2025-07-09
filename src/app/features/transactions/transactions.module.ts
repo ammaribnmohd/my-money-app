@@ -31,7 +31,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   imports: [
     CommonModule,
     TransactionsRoutingModule,
-    // --- ADD THE MODULES HERE ---
+  
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,

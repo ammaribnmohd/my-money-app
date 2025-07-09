@@ -6,13 +6,13 @@ import { Category, Transaction } from '../../../../core/models/app-models';
 
 // This interface defines the data we can pass TO the dialog.
 export interface TransactionFormData {
-  transaction?: Transaction; // Used for editing an existing transaction
+  transaction?: Transaction; 
   categories: Category[];
 }
 
 @Component({
   selector: 'app-transaction-form',
-  standalone: false, // This component is not standalone; it relies on Angular Material and other modules.
+  standalone: false, 
   templateUrl: './transaction-form.component.html',
   styleUrls: ['./transaction-form.component.scss']
 })
@@ -40,7 +40,6 @@ export class TransactionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // If we are editing a transaction (data.transaction is provided), patch the form.
     if (this.data.transaction) {
       this.transactionForm.patchValue(this.data.transaction);
     }

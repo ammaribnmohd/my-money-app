@@ -4,7 +4,7 @@ import { LocalStorageService } from '../../core/services/local-storage.service';
 import { Category } from '../../core/models/app-models';
 import { TakaCurrencyPipe } from '../../shared/pipes/taka-currency.pipe';
 
-// This interface defines the data format ngx-charts expects
+
 export interface ChartData {
   name: string;
   value: number;
@@ -12,7 +12,7 @@ export interface ChartData {
 
 @Component({
   selector: 'app-dashboard',
-  standalone: false, // This is not a standalone component  
+  standalone: false, 
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
@@ -25,11 +25,9 @@ export class DashboardComponent implements OnInit {
   // Observable for the pie chart data
   expenseBreakdown$!: Observable<ChartData[]>;
 
-  // FIX: Instead of injecting the pipe, we create a new instance ourselves.
-  // This is simpler and avoids the dependency injection error.
   private takaCurrencyPipe = new TakaCurrencyPipe();
 
-  // The constructor now only needs the LocalStorageService.
+ 
   constructor(private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
@@ -37,7 +35,7 @@ export class DashboardComponent implements OnInit {
     const transactions$ = appData$.pipe(map(data => data.transactions));
     const categories$ = appData$.pipe(map(data => data.categories));
 
-    // Calculate Total Income (same as before)
+    // Calculate Total Income 
     this.totalIncome$ = transactions$.pipe(
       map(transactions => transactions
         .filter(t => t.type === 'income')
@@ -45,7 +43,7 @@ export class DashboardComponent implements OnInit {
       )
     );
 
-    // Calculate Total Expense (same as before)
+    // Calculate Total Expense
     this.totalExpense$ = transactions$.pipe(
       map(transactions => transactions
         .filter(t => t.type === 'expense')
@@ -53,7 +51,7 @@ export class DashboardComponent implements OnInit {
       )
     );
 
-    // Calculate Current Balance (same as before)
+    // Calculate Current Balance 
     this.currentBalance$ = transactions$.pipe(
       map(transactions => {
         const income = transactions
@@ -66,7 +64,7 @@ export class DashboardComponent implements OnInit {
       })
     );
 
-    // Calculate Expense Breakdown for the chart (same as before)
+    // Calculate Expense Breakdown for the chart
     this.expenseBreakdown$ = combineLatest([transactions$, categories$]).pipe(
       map(([transactions, categories]) => {
         const categorySums = new Map<string, number>();
@@ -92,17 +90,11 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  /**
-   * Formatting function for the chart's raw values (e.g., 500)
-   * This now uses our manually created pipe instance.
-   */
+ 
   public valueFormatting = (value: number): string => {
     return this.takaCurrencyPipe.transform(value);
   }
 
-  /**
-   * Formatting function for the chart's percentage values (e.g., 10)
-   */
   public percentageFormatting = (value: number): string => {
     return `${value.toFixed(1)}%`;
   }

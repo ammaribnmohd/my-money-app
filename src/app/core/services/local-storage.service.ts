@@ -56,10 +56,6 @@ export class LocalStorageService {
     };
   }
 
-  /**
-   * Exposes the app data as an Observable. Components can listen to this
-   * to get notified of any data changes.
-   */
   get appData$(): Observable<AppData> {
     return this._appData$.asObservable();
   }
@@ -138,14 +134,9 @@ export class LocalStorageService {
   deleteCategory(categoryId: string): void {
     const currentData = this._appData$.getValue();
     const filteredCategories = currentData.categories.filter(c => c.id !== categoryId);
-    // For safety, we'll reassign any transactions using the deleted category
-    // to a null or 'uncategorized' ID. For now, let's just delete the category.
-    // A more advanced implementation could handle this more gracefully.
     this.updateAppData({
       ...currentData,
       categories: filteredCategories
     });
   }
-  // We will add more methods like updateTransaction, deleteTransaction, etc. later
-  // as we build the components that need them.
 }

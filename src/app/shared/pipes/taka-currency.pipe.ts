@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'takaCurrency',
-  standalone: true // <--- ADD THIS LINE BACK
+  standalone: true 
 })
 export class TakaCurrencyPipe implements PipeTransform {
   transform(value: number | null | undefined): string {
