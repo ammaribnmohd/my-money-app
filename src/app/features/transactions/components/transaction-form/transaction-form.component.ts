@@ -2,8 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Category, Transaction } from '../../../../core/models/app-models';
-import { Observable } from 'rxjs';
-import { LocalStorageService } from '../../../../core/services/local-storage.service';
+
 
 // This interface defines the data we can pass TO the dialog.
 export interface TransactionFormData {
@@ -32,10 +31,10 @@ export class TransactionFormComponent implements OnInit {
 
     // Build the form structure and set validation rules.
     this.transactionForm = this.fb.group({
-      type: ['expense', Validators.required], // Default to 'expense'
+      type: ['expense', Validators.required], 
       amount: [null, [Validators.required, Validators.min(0.01)]],
       categoryId: ['', Validators.required],
-      date: [new Date(), Validators.required], // Default to today
+      date: [new Date(), Validators.required], 
       description: ['']
     });
   }
@@ -60,12 +59,10 @@ export class TransactionFormComponent implements OnInit {
 
   onSave(): void {
     if (this.transactionForm.invalid) {
-      return; // If the form is not valid, do nothing.
+      return; 
     }
 
-    // The form is valid, so we close the dialog and pass the form's value back.
     const formData = this.transactionForm.value;
-    // Format the date to a simple 'YYYY-MM-DD' string for consistent storage.
     const isoDate = new Date(formData.date);
     isoDate.setMinutes(isoDate.getMinutes() - isoDate.getTimezoneOffset());
     formData.date = isoDate.toISOString().split('T')[0];

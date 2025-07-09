@@ -48,23 +48,22 @@
   <mat-card-content class="p-4 h-96">
   <!-- 2. We add a NEW wrapper div here. This div will control the layout. -->
   <div class="w-full h-full flex flex-col">
-    <ng-container *ngIf="(expenseBreakdown$ | async) as chartData">
-      <!-- 3. The rest of the code is the same as our last attempt. -->
-      <!-- This flex-grow div is now inside our reliable wrapper div. -->
-      <div *ngIf="chartData.length > 0; else noExpenseData" class="w-full flex-grow">
-        <ngx-charts-advanced-pie-chart
-          [scheme]="'cool'"
-          [results]="chartData"
-          [gradient]="true"
-          [animations]="false">
-        </ngx-charts-advanced-pie-chart>
-      </div>
-      <ng-template #noExpenseData>
+    @if ((expenseBreakdown$ | async); as chartData) {
+      @if (chartData.length > 0) {
+        <div class="w-full flex-grow">
+          <ngx-charts-advanced-pie-chart
+            [scheme]="'cool'"
+            [results]="chartData"
+            [gradient]="true"
+            [animations]="false">
+          </ngx-charts-advanced-pie-chart>
+        </div>
+      } @else {
         <div class="flex items-center justify-center h-full text-gray-500">
           <p>No expense data yet. Add some transactions to see the chart!</p>
         </div>
-      </ng-template>
-    </ng-container>
+      }
+    }
   </div>
 </mat-card-content>
   </mat-card>

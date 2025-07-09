@@ -12,9 +12,11 @@
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>Category Name</mat-label>
       <input matInput formControlName="name" placeholder="e.g., Groceries">
-      <mat-error *ngIf="categoryForm.get('name')?.hasError('required')">
-        Name is required.
-      </mat-error>
+      @if (categoryForm.get('name')?.hasError('required')) {
+        <mat-error>
+          Name is required.
+        </mat-error>
+      }
     </mat-form-field>
 
     <!-- Icon Name -->

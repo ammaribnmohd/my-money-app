@@ -12,20 +12,25 @@
         </button>
       </mat-card-header>
       <mat-card-content>
-        <mat-list *ngIf="(expenseCategories$ | async) as categories">
-          <div *ngIf="categories.length === 0" class="text-center text-gray-500 p-4">No expense categories yet.</div>
-          <ng-container *ngFor="let category of categories; let last = last">
-            <mat-list-item>
-              <mat-icon matListItemIcon [style.color]="category.color">{{ category.icon || 'category' }}</mat-icon>
-              <div matListItemTitle>{{ category.name }}</div>
-              <div matListItemMeta class="flex items-center">
-                <button mat-icon-button (click)="editCategory(category)"><mat-icon>edit</mat-icon></button>
-                <button mat-icon-button color="warn" (click)="deleteCategory(category)"><mat-icon>delete</mat-icon></button>
-              </div>
-            </mat-list-item>
-            <mat-divider *ngIf="!last"></mat-divider>
-          </ng-container>
-        </mat-list>
+        @if ((expenseCategories$ | async); as categories) {
+          <mat-list>
+            @for (category of categories; track category.id; let last = $last) {
+              <mat-list-item>
+                <mat-icon matListItemIcon [style.color]="category.color">{{ category.icon || 'category' }}</mat-icon>
+                <div matListItemTitle>{{ category.name }}</div>
+                <div matListItemMeta class="flex items-center">
+                  <button mat-icon-button (click)="editCategory(category)"><mat-icon>edit</mat-icon></button>
+                  <button mat-icon-button color="warn" (click)="deleteCategory(category)"><mat-icon>delete</mat-icon></button>
+                </div>
+              </mat-list-item>
+              @if (!last) {
+                <mat-divider></mat-divider>
+              }
+            } @empty {
+              <div class="text-center text-gray-500 p-4">No expense categories yet.</div>
+            }
+          </mat-list>
+        }
       </mat-card-content>
     </mat-card>
 
@@ -38,20 +43,25 @@
         </button>
       </mat-card-header>
       <mat-card-content>
-        <mat-list *ngIf="(incomeCategories$ | async) as categories">
-          <div *ngIf="categories.length === 0" class="text-center text-gray-500 p-4">No income categories yet.</div>
-          <ng-container *ngFor="let category of categories; let last = last">
-            <mat-list-item>
-              <mat-icon matListItemIcon [style.color]="category.color">{{ category.icon || 'category' }}</mat-icon>
-              <div matListItemTitle>{{ category.name }}</div>
-              <div matListItemMeta class="flex items-center">
-                <button mat-icon-button (click)="editCategory(category)"><mat-icon>edit</mat-icon></button>
-                <button mat-icon-button color="warn" (click)="deleteCategory(category)"><mat-icon>delete</mat-icon></button>
-              </div>
-            </mat-list-item>
-            <mat-divider *ngIf="!last"></mat-divider>
-          </ng-container>
-        </mat-list>
+        @if ((incomeCategories$ | async); as categories) {
+          <mat-list>
+            @for (category of categories; track category.id; let last = $last) {
+              <mat-list-item>
+                <mat-icon matListItemIcon [style.color]="category.color">{{ category.icon || 'category' }}</mat-icon>
+                <div matListItemTitle>{{ category.name }}</div>
+                <div matListItemMeta class="flex items-center">
+                  <button mat-icon-button (click)="editCategory(category)"><mat-icon>edit</mat-icon></button>
+                  <button mat-icon-button color="warn" (click)="deleteCategory(category)"><mat-icon>delete</mat-icon></button>
+                </div>
+              </mat-list-item>
+              @if (!last) {
+                <mat-divider></mat-divider>
+              }
+            } @empty {
+              <div class="text-center text-gray-500 p-4">No income categories yet.</div>
+            }
+          </mat-list>
+        }
       </mat-card-content>
     </mat-card>
 
