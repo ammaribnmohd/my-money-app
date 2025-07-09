@@ -8,15 +8,14 @@
     3. The `| async` pipe is crucial. It automatically subscribes to our data streams
        and updates the list whenever the data changes.
   -->
- <app-transaction-list
-  [transactions]="(transactions$ | async) || []"
-  [categories]="(categories$ | async) || []"
-  (editTransaction)="onEditTransaction($event)"
-  (deleteTransaction)="onDeleteTransaction($event)"
-></app-transaction-list>
+  <app-transaction-filter (filterChange)="onFilterChange($event)"></app-transaction-filter>
+  <app-transaction-list [transactions]="(filteredTransactions$ | async) || []" [categories]="(categories$ | async) || []"
+    (editTransaction)="onEditTransaction($event)"
+    (deleteTransaction)="onDeleteTransaction($event)"></app-transaction-list>
 
   <!-- Floating Action Button to add a new transaction -->
-  <button mat-fab color="primary" class="fixed bottom-24 right-6 md:bottom-6 md:right-6" (click)="openAddTransactionDialog()">
+  <button mat-fab color="primary" class="fixed bottom-24 right-6 md:bottom-6 md:right-6"
+    (click)="openAddTransactionDialog()">
     <mat-icon>add</mat-icon>
   </button>
 </div>

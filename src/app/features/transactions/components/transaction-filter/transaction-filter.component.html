@@ -1,0 +1,24 @@
+<div [formGroup]="filterForm" class="flex flex-col md:flex-row gap-4 mb-6 p-4 bg-gray-100 rounded-lg">
+  <!-- Filter by Type -->
+  <div>
+    <label class="font-semibold text-sm text-gray-600 mb-1 block">Type</label>
+    <mat-button-toggle-group formControlName="type" aria-label="Filter by type">
+      <mat-button-toggle value="all">All</mat-button-toggle>
+      <mat-button-toggle value="income">Income</mat-button-toggle>
+      <mat-button-toggle value="expense">Expense</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- Filter by Date Range -->
+  <div>
+    <label class="font-semibold text-sm text-gray-600 mb-1 block">Date</label>
+    <mat-form-field appearance="outline" class="w-full md:w-48">
+      <mat-label>Date Range</mat-label>
+      <mat-select formControlName="dateRange">
+        <mat-option value="all">All Time</mat-option>
+        <mat-option value="thisMonth">This Month</mat-option>
+        <mat-option value="last7Days">Last 7 Days</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>

@@ -12,19 +12,21 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { TransactionsRoutingModule } from './transactions-routing.module';
 import { TransactionsPageComponent } from './transactions-page.component';
 import { TransactionListComponent } from './components/transaction-list/transaction-list.component';
 import { TransactionFormComponent } from './components/transaction-form/transaction-form.component';
 import { SharedModule } from '../../shared/shared.module';
-
+import { TransactionFilterComponent } from './components/transaction-filter/transaction-filter.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
     TransactionsPageComponent,
     TransactionListComponent,
     TransactionFormComponent,
+    TransactionFilterComponent,
   ],
   imports: [
     CommonModule,
@@ -42,9 +44,9 @@ import { SharedModule } from '../../shared/shared.module';
     MatDatepickerModule,
     MatNativeDateModule,
     MatMenuModule,
+    MatSnackBarModule,
     MatButtonToggleModule,
-    SharedModule
-    
-  ]
+    SharedModule,
+  ],
 })
-export class TransactionsModule { }
+export class TransactionsModule {}

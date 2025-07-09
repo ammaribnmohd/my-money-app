@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryFormComponent, CategoryFormData } from './components/category-form/category-form.component';
 import { first } from 'rxjs/operators';
+import { ConfirmationDialogComponent, ConfirmationDialogData } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -70,9 +71,22 @@ export class CategoriesComponent implements OnInit {
   
   // REIMPLEMENT deleteCategory
   deleteCategory(category: Category): void {
-    if (confirm(`Are you sure you want to delete "${category.name}"?`)) {
-      this.localStorageService.deleteCategory(category.id);
-      this.snackBar.open('Category deleted.', 'Close', { duration: 3000 });
-    }
+    const dialogData: ConfirmationDialogData = {
+      title: 'Confirm Deletion',
+      message: `Are you sure you want to delete the category "${category.name}"? This could affect existing transactions.`,
+      confirmButtonText: 'Delete'
+    };
+    
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().pipe(first()).subscribe(result => {
+      if (result) {
+        this.localStorageService.deleteCategory(category.id);
+        this.snackBar.open('Category deleted.', 'Close', { duration: 3000 });
+      }
+    });
   }
 }

@@ -18,26 +18,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-
 @NgModule({
-  declarations: [
-    CategoriesComponent,
-    CategoryFormComponent
-  ],
+  declarations: [CategoriesComponent, CategoryFormComponent],
   imports: [
-        CommonModule,
+    CommonModule,
     CategoriesRoutingModule,
-    ReactiveFormsModule, // Add this
+    ReactiveFormsModule, 
     MatCardModule,
     MatListModule,
     MatIconModule,
     MatButtonModule,
     MatDividerModule,
-    MatDialogModule, // Add this
-    MatFormFieldModule, // Add this
-    MatInputModule, // Add this
-    MatSnackBarModule, // Add this
-    MatTooltipModule 
-  ]
+    MatDialogModule, 
+    MatFormFieldModule, 
+    MatInputModule, 
+    MatSnackBarModule, 
+    MatTooltipModule,
+  ],
 })
-export class CategoriesModule { }
+export class CategoriesModule {}
