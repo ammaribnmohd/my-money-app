@@ -1,21 +1,15 @@
 <div class="p-4 md:p-6">
   <h1 class="text-2xl font-bold mb-6 text-gray-800">Transactions</h1>
+  <button mat-flat-button color="primary" (click)="openAddTransactionDialog()">
+    <mat-icon class="mr-2">add</mat-icon>
+    <span>New Transaction</span>
+  </button>
 
-  <!--
-    This is where the magic happens!
-    1. We are using the <app-transaction-list> component you just built.
-    2. We pass our data streams (transactions$ and categories$) into the component's inputs.
-    3. The `| async` pipe is crucial. It automatically subscribes to our data streams
-       and updates the list whenever the data changes.
-  -->
   <app-transaction-filter (filterChange)="onFilterChange($event)"></app-transaction-filter>
-  <app-transaction-list [transactions]="(filteredTransactions$ | async) || []" [categories]="(categories$ | async) || []"
-    (editTransaction)="onEditTransaction($event)"
+  <app-transaction-list [transactions]="(filteredTransactions$ | async) || []"
+    [categories]="(categories$ | async) || []" (editTransaction)="onEditTransaction($event)"
     (deleteTransaction)="onDeleteTransaction($event)"></app-transaction-list>
 
   <!-- Floating Action Button to add a new transaction -->
-  <button mat-fab color="primary" class="fixed bottom-24 right-6 md:bottom-6 md:right-6"
-    (click)="openAddTransactionDialog()">
-    <mat-icon>add</mat-icon>
-  </button>
+
 </div>
