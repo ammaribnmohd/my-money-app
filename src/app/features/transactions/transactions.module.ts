@@ -20,6 +20,7 @@ import { TransactionFormComponent } from './components/transaction-form/transact
 import { SharedModule } from '../../shared/shared.module';
 import { TransactionFilterComponent } from './components/transaction-filter/transaction-filter.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatMenuModule,
     MatSnackBarModule,
     MatButtonToggleModule,
+    MatPaginatorModule,
     SharedModule,
   ],
 })

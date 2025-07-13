@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest, first, map } from 'rxjs';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  first,
+  map,
+  startWith,
+} from 'rxjs';
 import { Transaction, Category } from '../../core/models/app-models';
 import { LocalStorageService } from '../../core/services/local-storage.service';
 import { TransactionFormComponent } from './components/transaction-form/transaction-form.component';
@@ -10,6 +17,7 @@ import {
   ConfirmationDialogComponent,
   ConfirmationDialogData,
 } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-transactions-page',
@@ -17,15 +25,19 @@ import {
   templateUrl: './transactions-page.component.html',
   styleUrls: ['./transactions-page.component.scss'],
 })
-export class TransactionsPageComponent implements OnInit {
-  filteredTransactions$!: Observable<Transaction[]>;
-  categories$!: Observable<Category[]>;
-  allCategories: Category[] = []; 
+export class TransactionsPageComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  private filters$ = new BehaviorSubject<TransactionFilters>({
+  filteredTransactions$!: Observable<Transaction[]>;
+  displayTransactions$!: Observable<Transaction[]>;
+  categories$!: Observable<Category[]>;
+  allCategories: Category[] = [];
+
+  filters$ = new BehaviorSubject<TransactionFilters>({
     type: 'all',
     dateRange: 'all',
   });
+  pageEvent$ = new BehaviorSubject<PageEvent | null>(null);
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -37,7 +49,6 @@ export class TransactionsPageComponent implements OnInit {
     const appData$ = this.localStorageService.appData$;
     const transactions$ = appData$.pipe(map((data) => data.transactions));
     this.categories$ = appData$.pipe(map((data) => data.categories));
-
     this.categories$.subscribe(
       (categories) => (this.allCategories = categories)
     );
@@ -47,44 +58,57 @@ export class TransactionsPageComponent implements OnInit {
       this.filters$,
     ]).pipe(
       map(([transactions, filters]) => {
-        // Start with all transactions
-        let filteredTransactions = [...transactions];
-
-        // 1. Apply the 'type' filter
+        let filtered = [...transactions];
         if (filters.type !== 'all') {
-          filteredTransactions = filteredTransactions.filter(
-            (t) => t.type === filters.type
-          );
+          filtered = filtered.filter((t) => t.type === filters.type);
         }
-
-        // 2. Apply the 'dateRange' filter
         if (filters.dateRange !== 'all') {
           const today = new Date();
           if (filters.dateRange === 'thisMonth') {
-            const thisMonth = today.toISOString().substring(0, 7); 
-            filteredTransactions = filteredTransactions.filter((t) =>
-              t.date.startsWith(thisMonth)
-            );
+            const thisMonth = today.toISOString().substring(0, 7);
+            filtered = filtered.filter((t) => t.date.startsWith(thisMonth));
           } else if (filters.dateRange === 'last7Days') {
             const sevenDaysAgo = new Date();
             sevenDaysAgo.setDate(today.getDate() - 7);
-            filteredTransactions = filteredTransactions.filter(
-              (t) => new Date(t.date) >= sevenDaysAgo
-            );
+            filtered = filtered.filter((t) => new Date(t.date) >= sevenDaysAgo);
           }
         }
-
-        // 3. Sort the final result
-        return filteredTransactions.sort(
+        return filtered.sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         );
       })
     );
+
+    // Combine filtered data with pagination to get the final list for display
+    this.displayTransactions$ = combineLatest([
+      this.filteredTransactions$,
+      this.pageEvent$.pipe(startWith({ pageIndex: 0, pageSize: 6, length: 0 })), // Start with default page
+    ]).pipe(
+      map(([transactions, pageEvent]) => {
+  
+        const pageSize = pageEvent?.pageSize ?? 6;
+        const pageIndex = pageEvent?.pageIndex ?? 0;
+        const startIndex = pageIndex * pageSize;
+        const endIndex = startIndex + pageSize;
+        return transactions.slice(startIndex, endIndex);
+      })
+    );
+  }
+
+  ngAfterViewInit(): void {
+   
+    this.filters$.subscribe(() => {
+      if (this.paginator) {
+        this.paginator.pageIndex = 0;
+      }
+    });
   }
   onFilterChange(newFilters: TransactionFilters): void {
     this.filters$.next(newFilters);
   }
-
+  onPageChange(event: PageEvent): void {
+    this.pageEvent$.next(event);
+  }
   openAddTransactionDialog(): void {
     const dialogRef = this.dialog.open(TransactionFormComponent, {
       width: '400px',
@@ -108,7 +132,6 @@ export class TransactionsPageComponent implements OnInit {
     const dialogRef = this.dialog.open(TransactionFormComponent, {
       width: '400px',
       data: {
-        
         transaction: transaction,
         categories: this.allCategories,
       },
@@ -119,7 +142,6 @@ export class TransactionsPageComponent implements OnInit {
       .pipe(first())
       .subscribe((result) => {
         if (result) {
-         
           const updatedTransaction: Transaction = { ...transaction, ...result };
           this.localStorageService.updateTransaction(updatedTransaction);
           this.snackBar.open('Transaction updated!', 'Close', {
@@ -146,7 +168,6 @@ export class TransactionsPageComponent implements OnInit {
       .afterClosed()
       .pipe(first())
       .subscribe((result) => {
-      
         if (result) {
           this.localStorageService.deleteTransaction(transactionId);
           this.snackBar.open('Transaction deleted.', 'Close', {

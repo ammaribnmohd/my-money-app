@@ -6,7 +6,21 @@
   </button>
 
   <app-transaction-filter (filterChange)="onFilterChange($event)"></app-transaction-filter>
-  <app-transaction-list [transactions]="(filteredTransactions$ | async) || []"
-    [categories]="(categories$ | async) || []" (editTransaction)="onEditTransaction($event)"
-    (deleteTransaction)="onDeleteTransaction($event)"></app-transaction-list>
+  <app-transaction-list 
+    [transactions]="(filteredTransactions$ | async) || []"
+    [categories]="(categories$ | async) || []" 
+    (editTransaction)="onEditTransaction($event)"
+    (deleteTransaction)="onDeleteTransaction($event)">
+  </app-transaction-list>
+
+    @if ((filteredTransactions$ | async)?.length) {
+    <mat-paginator 
+      class="mt-4 bg-gray-50"
+      (page)="onPageChange($event)"
+      [length]="(filteredTransactions$ | async)?.length || 0"
+      [pageSize]="6"
+      [pageSizeOptions]="[6, 12,18, 24]"
+      aria-label="Select page of transactions">
+    </mat-paginator>
+  }
 </div>
