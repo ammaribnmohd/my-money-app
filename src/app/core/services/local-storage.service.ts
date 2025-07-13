@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
   providedIn: 'root'
 })
 export class LocalStorageService {
-  // The key we'll use to store data in the browser's Local Storage.
   private readonly STORAGE_KEY = 'myMoneyAppData';
 
   // A BehaviorSubject holds the "current value" of our app's data.
@@ -18,9 +17,7 @@ export class LocalStorageService {
     const initialData = this.loadInitialData();
     this._appData$ = new BehaviorSubject<AppData>(initialData);
 
-    // This is the magic: whenever the data changes in our BehaviorSubject...
     this._appData$.subscribe(data => {
-      // ...we save the new version to Local Storage.
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
     });
   }

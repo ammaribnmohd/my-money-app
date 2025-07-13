@@ -5,7 +5,7 @@ import { Category } from '../../../../core/models/app-models';
 
 
 export interface CategoryFormData {
-  category?: Category; // Optional, used for editing
+  category?: Category; 
   type: 'income' | 'expense';
 }
 
@@ -45,7 +45,6 @@ export class CategoryFormComponent implements OnInit {
     if (this.categoryForm.invalid) {
       return;
     }
-    // Close the dialog and pass back the form data
     this.dialogRef.close(this.categoryForm.value);
   }
 }

@@ -1,11 +1,8 @@
 <div class="p-4 md:p-6">
   <h1 class="text-2xl font-bold mb-6 text-gray-800">Dashboard</h1>
 
-  <!-- Grid layout for our summary cards -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-    <!-- Current Balance Card -->
  
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <mat-card class="p-0 shadow-lg rounded-xl overflow-hidden">
       <div class="p-6 flex flex-col items-center justify-center bg-primary text-white">
         <mat-icon class="text-4xl opacity-80">account_balance_wallet</mat-icon>
@@ -15,9 +12,6 @@
         </p>
       </div>
     </mat-card>
-
-    <!-- Total Income Card -->
-   
     <mat-card class="p-0 shadow-lg rounded-xl overflow-hidden">
       <div class="p-6 flex flex-col items-center justify-center bg-success text-white">
         <mat-icon class="text-4xl opacity-80">arrow_upward</mat-icon>
@@ -27,9 +21,6 @@
         </p>
       </div>
     </mat-card>
-
-    <!-- Total Expense Card -->
-   
     <mat-card class="p-0 shadow-lg rounded-xl overflow-hidden">
       <div class="p-6 flex flex-col items-center justify-center bg-warn text-white">
         <mat-icon class="text-4xl opacity-80">arrow_downward</mat-icon>
@@ -39,35 +30,51 @@
         </p>
       </div>
     </mat-card>
-
   </div>
+  
+
   <mat-card class="mt-8 shadow-lg rounded-xl">
     <mat-card-header>
       <mat-card-title>Expense Breakdown</mat-card-title>
     </mat-card-header>
-  <mat-card-content class="p-4 h-96">
- 
-  <div class="w-full h-full flex flex-col">
-    @if ((expenseBreakdown$ | async); as chartData) {
-      @if (chartData.length > 0) {
-        <div class="w-full flex-grow">
-          <ngx-charts-advanced-pie-chart
-            [scheme]="'cool'"
-            [results]="chartData"
-            [gradient]="true"
-            [animations]="false">
-          </ngx-charts-advanced-pie-chart>
-        </div>
-      } @else {
-        <div class="flex items-center justify-center h-full text-gray-500">
-          <p>No expense data yet. Add some transactions to see the chart!</p>
-        </div>
+    
+    <mat-card-content class="p-6">
+      @if ((expenseChartData$ | async); as chartData) {
+        @if (chartData.labels.length > 0) {
+        
+          <div class="flex items-center justify-center gap-8">
+            <!-- Chart container -->
+            <div class="flex-shrink-0" style="width: 300px; height: 300px; position: relative;">
+              <p-chart 
+                type="doughnut" 
+                [data]="chartData" 
+                [options]="chartOptions"
+                class="w-full h-full">
+              </p-chart>
+            </div>
+            
+            <!-- Custom Legend -->
+            <div class="flex flex-col gap-3">
+              @for (label of chartData.labels; track label; let i = $index) {
+                <div class="flex items-center gap-2">
+                  <div 
+                    class="w-3 h-3 rounded-full flex-shrink-0"
+                    [style.background-color]="chartData.datasets[0].backgroundColor[i]">
+                  </div>
+                  <span class="text-sm text-gray-700">{{ label }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        } @else {
+          <div class="flex flex-col items-center justify-center h-64 text-gray-500">
+            <mat-icon class="text-4xl mb-2">pie_chart_outline</mat-icon>
+            <p>No expense data yet. Add a transaction to see the chart!</p>
+          </div>
+        }
       }
-    }
-  </div>
-</mat-card-content>
+    </mat-card-content>
   </mat-card>
-
 
   <div class="mt-8 text-center">
     <button mat-stroked-button color="primary" routerLink="/transactions">

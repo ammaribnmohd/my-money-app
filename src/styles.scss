@@ -1,8 +1,3 @@
-/*
-  NO @use '@angular/material' here.
-  NO theme definitions.
-  The theme is now loaded from angular.json.
-*/
 
 @tailwind base;
 @tailwind components;
@@ -14,6 +9,7 @@ html, body {
 }
 body {
   margin: 0;
-  /* Use Roboto, the default font for the indigo-pink theme */
+ 
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+

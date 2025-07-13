@@ -1,33 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, combineLatest, map } from 'rxjs';
 import { LocalStorageService } from '../../core/services/local-storage.service';
-import { Category } from '../../core/models/app-models';
-import { TakaCurrencyPipe } from '../../shared/pipes/taka-currency.pipe';
-
-
-export interface ChartData {
-  name: string;
-  value: number;
-}
 
 @Component({
   selector: 'app-dashboard',
-  standalone: false, 
+  standalone: false,
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  // Observables for the summary cards
   currentBalance$!: Observable<number>;
   totalIncome$!: Observable<number>;
   totalExpense$!: Observable<number>;
-  
-  // Observable for the pie chart data
-  expenseBreakdown$!: Observable<ChartData[]>;
+  expenseChartData$!: Observable<any>;
+  chartOptions: any;
 
-  private takaCurrencyPipe = new TakaCurrencyPipe();
-
- 
   constructor(private localStorageService: LocalStorageService) {}
 
   ngOnInit(): void {
@@ -35,40 +22,13 @@ export class DashboardComponent implements OnInit {
     const transactions$ = appData$.pipe(map(data => data.transactions));
     const categories$ = appData$.pipe(map(data => data.categories));
 
-    // Calculate Total Income 
-    this.totalIncome$ = transactions$.pipe(
-      map(transactions => transactions
-        .filter(t => t.type === 'income')
-        .reduce((sum, current) => sum + current.amount, 0)
-      )
-    );
+    this.totalIncome$ = transactions$.pipe(map(ts => ts.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0)));
+    this.totalExpense$ = transactions$.pipe(map(ts => ts.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0)));
+    this.currentBalance$ = combineLatest([this.totalIncome$, this.totalExpense$]).pipe(map(([income, expense]) => income - expense));
 
-    // Calculate Total Expense
-    this.totalExpense$ = transactions$.pipe(
-      map(transactions => transactions
-        .filter(t => t.type === 'expense')
-        .reduce((sum, current) => sum + current.amount, 0)
-      )
-    );
-
-    // Calculate Current Balance 
-    this.currentBalance$ = transactions$.pipe(
-      map(transactions => {
-        const income = transactions
-          .filter(t => t.type === 'income')
-          .reduce((sum, current) => sum + current.amount, 0);
-        const expense = transactions
-          .filter(t => t.type === 'expense')
-          .reduce((sum, current) => sum + current.amount, 0);
-        return income - expense;
-      })
-    );
-
-    // Calculate Expense Breakdown for the chart
-    this.expenseBreakdown$ = combineLatest([transactions$, categories$]).pipe(
+    const expenseBreakdown$ = combineLatest([transactions$, categories$]).pipe(
       map(([transactions, categories]) => {
         const categorySums = new Map<string, number>();
-
         transactions
           .filter(t => t.type === 'expense')
           .forEach(t => {
@@ -76,26 +36,55 @@ export class DashboardComponent implements OnInit {
             categorySums.set(t.categoryId, currentSum + t.amount);
           });
 
-        const chartData: ChartData[] = [];
+        const chartData: { name: string; value: number; color?: string }[] = [];
         categorySums.forEach((value, categoryId) => {
           const category = categories.find(c => c.id === categoryId);
           chartData.push({
             name: category?.name || 'Uncategorized',
-            value: value
+            value: value,
+            color: category?.color
           });
         });
-        
         return chartData;
       })
     );
+
+    this.expenseChartData$ = expenseBreakdown$.pipe(
+      map(breakdown => {
+        const labels = breakdown.map(item => item.name);
+        const data = breakdown.map(item => item.value);
+        const backgroundColors = breakdown.map(item => item.color || this.getRandomColor());
+
+        return {
+          labels: labels,
+          datasets: [
+            {
+              data: data,
+              backgroundColor: backgroundColors
+            }
+          ]
+        };
+      })
+    );
+
+   
+    this.chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false 
+        }
+      }
+    };
   }
 
- 
-  public valueFormatting = (value: number): string => {
-    return this.takaCurrencyPipe.transform(value);
-  }
-
-  public percentageFormatting = (value: number): string => {
-    return `${value.toFixed(1)}%`;
+  private getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 }

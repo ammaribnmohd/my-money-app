@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Category, Transaction } from '../../../../core/models/app-models';
 
 
-// This interface defines the data we can pass TO the dialog.
+
 export interface TransactionFormData {
   transaction?: Transaction; 
   categories: Category[];
@@ -22,14 +22,14 @@ export class TransactionFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    // MatDialogRef is a handle to the dialog itself. We use it to close it.
+
     public dialogRef: MatDialogRef<TransactionFormComponent>,
     // MAT_DIALOG_DATA is how we receive data from the component that opened the dialog.
     @Inject(MAT_DIALOG_DATA) public data: TransactionFormData
   ) {
     this.categories = this.data.categories;
 
-    // Build the form structure and set validation rules.
+   
     this.transactionForm = this.fb.group({
       type: ['expense', Validators.required], 
       amount: [null, [Validators.required, Validators.min(0.01)]],

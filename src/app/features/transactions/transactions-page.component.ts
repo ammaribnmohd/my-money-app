@@ -85,7 +85,6 @@ export class TransactionsPageComponent implements OnInit, AfterViewInit {
       this.pageEvent$.pipe(startWith({ pageIndex: 0, pageSize: 6, length: 0 })), // Start with default page
     ]).pipe(
       map(([transactions, pageEvent]) => {
-  
         const pageSize = pageEvent?.pageSize ?? 6;
         const pageIndex = pageEvent?.pageIndex ?? 0;
         const startIndex = pageIndex * pageSize;
@@ -96,7 +95,6 @@ export class TransactionsPageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-   
     this.filters$.subscribe(() => {
       if (this.paginator) {
         this.paginator.pageIndex = 0;
@@ -112,6 +110,9 @@ export class TransactionsPageComponent implements OnInit, AfterViewInit {
   openAddTransactionDialog(): void {
     const dialogRef = this.dialog.open(TransactionFormComponent, {
       width: '400px',
+      panelClass: 'custom-dialog-container',
+      hasBackdrop: true,
+      disableClose: false,
       data: {
         categories: this.allCategories,
       },

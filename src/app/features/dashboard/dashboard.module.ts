@@ -10,8 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-// Charting Library Import
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    NgxChartsModule
+    
+    ChartModule
   ]
   
 })

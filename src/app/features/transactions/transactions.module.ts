@@ -22,6 +22,12 @@ import { TransactionFilterComponent } from './components/transaction-filter/tran
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
+// --- PRIMENG IMPORTS ---
+import { InputNumberModule } from 'primeng/inputnumber';
+import { SelectModule } from 'primeng/select';
+import { DatePickerModule } from 'primeng/datepicker';
+import { InputTextarea } from 'primeng/inputtextarea'; // Replaces the InputTextarea directive
+
 @NgModule({
   declarations: [
     TransactionsPageComponent,
@@ -32,8 +38,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   imports: [
     CommonModule,
     TransactionsRoutingModule,
-  
+    SharedModule,
     ReactiveFormsModule,
+
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
@@ -48,7 +55,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatSnackBarModule,
     MatButtonToggleModule,
     MatPaginatorModule,
-    SharedModule,
+
+    InputNumberModule,
+    SelectModule,
+    DatePickerModule,
+    InputTextarea,
+    
+    
   ],
 })
 export class TransactionsModule {}

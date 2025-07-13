@@ -18,6 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+
+import { InputTextModule } from 'primeng/inputtext';
 @NgModule({
   declarations: [CategoriesComponent, CategoryFormComponent],
   imports: [
@@ -34,6 +36,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatInputModule, 
     MatSnackBarModule, 
     MatTooltipModule,
+
+    InputTextModule,
   ],
 })
 export class CategoriesModule {}
