@@ -3,46 +3,62 @@
   
   <!-- The loop and card structure remain the same -->
   @for (transaction of transactions; track transaction.id) {
-    <mat-card class="flex items-center p-3 border rounded-lg shadow-sm">
-      <div class="flex-shrink-0 mr-4">
-        <mat-icon [style.color]="getCategory(transaction.categoryId)?.color || '#3F51B5'">
-          {{ getCategory(transaction.categoryId)?.icon || 'category' }}
-        </mat-icon>
+    <!-- The card is now a flex container with space-between alignment -->
+    <mat-card class="flex items-center justify-between p-3 border rounded-lg shadow-sm">
+      
+      <!-- Left-side content group -->
+      <div class="flex items-center overflow-hidden">
+        <!-- Icon -->
+        <div class="flex-shrink-0 mr-4">
+          <mat-icon [style.color]="getCategory(transaction.categoryId)?.color || '#3F51B5'">
+            {{ getCategory(transaction.categoryId)?.icon || 'category' }}
+          </mat-icon>
+        </div>
+        
+        <!-- Category and Description -->
+        <div class="overflow-hidden">
+          <p class="font-bold text-gray-800 truncate">{{ getCategory(transaction.categoryId)?.name || 'Uncategorized' }}</p>
+          <p class="text-sm text-gray-500 truncate">{{ transaction.description || 'No description' }}</p>
+        </div>
       </div>
-      <div class="flex-grow">
-        <p class="font-bold text-gray-800">{{ getCategory(transaction.categoryId)?.name || 'Uncategorized' }}</p>
-        <p class="text-sm text-gray-500">{{ transaction.description || 'No description' }}</p>
-      </div>
-      <div class="text-right flex-shrink-0 ml-4">
-        <p class="font-bold text-lg" [ngClass]="{
-          'text-green-600': transaction.type === 'income',
-          'text-red-600': transaction.type === 'expense'
-        }">
-          @if (transaction.type === 'income') {
-            <span>+</span>
-          }
-          @if (transaction.type === 'expense') {
-            <span>-</span>
-          }
-          {{ transaction.amount | takaCurrency }}
-        </p>
-        <p class="text-sm text-gray-500">{{ transaction.date | date:'dd MMM yyyy' }}</p>
-      </div>
-      <div>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onEdit(transaction)">
-            <mat-icon>edit</mat-icon>
-            <span>Edit</span>
+
+      <!-- Right-side content group -->
+      <div class="flex items-center flex-shrink-0 ml-4">
+        <!-- Amount and Date -->
+        <div class="text-right">
+          <p class="font-bold text-lg" [ngClass]="{
+            'text-green-600': transaction.type === 'income',
+            'text-red-600': transaction.type === 'expense'
+          }">
+            @if (transaction.type === 'income') {
+              <span>+</span>
+            }
+            @if (transaction.type === 'expense') {
+              <span>-</span>
+            }
+            {{ transaction.amount | takaCurrency }}
+          </p>
+          <p class="text-sm text-gray-500">{{ transaction.date | date:'dd MMM yyyy' }}</p>
+        </div>
+        
+        <!-- Menu Button -->
+        <div class="ml-1">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
           </button>
-          <button mat-menu-item (click)="onDelete(transaction.id)">
-            <mat-icon color="warn">delete</mat-icon>
-            <span class="text-warn">Delete</span>
-          </button>
-        </mat-menu>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onEdit(transaction)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="onDelete(transaction.id)">
+              <mat-icon color="warn">delete</mat-icon>
+              <span class="text-warn">Delete</span>
+            </button>
+          </mat-menu>
+        </div>
       </div>
+      
     </mat-card>
   } @empty {
     <!-- The empty state message now needs to span all columns of the grid -->
