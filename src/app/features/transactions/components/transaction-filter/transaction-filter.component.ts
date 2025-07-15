@@ -18,11 +18,28 @@ export class TransactionFilterComponent implements OnInit, OnDestroy {
   filterForm: FormGroup;
   private destroy$ = new Subject<void>();
 
+  typeOptions: { label: string, value: string }[];
+  dateRangeOptions: { label: string, value: string }[];
+
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
       type: ['all'],
       dateRange: ['all']
     });
+
+    // Options for the type filter
+    this.typeOptions = [
+      { label: 'All', value: 'all' },
+      { label: 'Income', value: 'income' },
+      { label: 'Expense', value: 'expense' }
+    ];
+
+    // Options for the date range filter
+    this.dateRangeOptions = [
+      { label: 'All Time', value: 'all' },
+      { label: 'This Month', value: 'thisMonth' },
+      { label: 'Last 7 Days', value: 'last7Days' }
+    ];
   }
 
   ngOnInit(): void {

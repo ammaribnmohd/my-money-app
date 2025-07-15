@@ -26,7 +26,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
-import { InputTextarea } from 'primeng/inputtextarea'; // Replaces the InputTextarea directive
+import { InputTextarea } from 'primeng/inputtextarea'; 
+import { DropdownModule } from 'primeng/dropdown';
+import { SelectButtonModule } from 'primeng/selectbutton'; 
 
 @NgModule({
   declarations: [
@@ -60,6 +62,8 @@ import { InputTextarea } from 'primeng/inputtextarea'; // Replaces the InputText
     SelectModule,
     DatePickerModule,
     InputTextarea,
+    DropdownModule,
+    SelectButtonModule
     
     
   ],
