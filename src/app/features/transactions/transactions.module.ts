@@ -29,6 +29,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { InputTextarea } from 'primeng/inputtextarea'; 
 import { DropdownModule } from 'primeng/dropdown';
 import { SelectButtonModule } from 'primeng/selectbutton'; 
+import { ButtonModule } from 'primeng/button'; 
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     DatePickerModule,
     InputTextarea,
     DropdownModule,
-    SelectButtonModule
+    SelectButtonModule,
+    ButtonModule
     
     
   ],
