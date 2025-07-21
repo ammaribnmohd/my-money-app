@@ -26,7 +26,7 @@ export class CategoryFormComponent implements OnInit {
     this.data = this.config.data;
     this.categoryForm = this.fb.group({
       name: ['', Validators.required],
-      icon: ['pi-tag'],
+      icon: ['pi pi-tag'], // Updated to full class name
       color: ['#3F51B5']
     });
   }

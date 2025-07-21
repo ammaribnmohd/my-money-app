@@ -16,7 +16,7 @@
           <ul class="list-none p-0 m-0">
             @for (category of categories; track category.id; let last = $last) {
               <li class="flex items-center p-2">
-                <i class="pi {{ category.icon || 'pi-tag' }} text-xl mr-3" [style.color]="category.color"></i>
+                <i [ngClass]="category.icon || 'pi pi-tag'" class="text-xl mr-3" [style.color]="category.color"></i>
                 <div class="flex-1 font-medium">{{ category.name }}</div>
                 <div class="flex items-center">
                   <p-button icon="pi pi-pencil" styleClass="p-button-text p-button-rounded" (click)="editCategory(category)"></p-button>
@@ -47,7 +47,7 @@
           <ul class="list-none p-0 m-0">
             @for (category of categories; track category.id; let last = $last) {
               <li class="flex items-center p-2">
-                <i class="pi {{ category.icon || 'pi-tag' }} text-xl mr-3" [style.color]="category.color"></i>
+                <i [ngClass]="category.icon || 'pi pi-tag'" class="text-xl mr-3" [style.color]="category.color"></i>
                 <div class="flex-1 font-medium">{{ category.name }}</div>
                 <div class="flex items-center">
                   <p-button icon="pi pi-pencil" styleClass="p-button-text p-button-rounded" (click)="editCategory(category)"></p-button>

@@ -1,3 +1,23 @@
-:host ::ng-deep .p-button .pi {
-  color: white !important;
+// By placing this inside ::ng-deep, we ensure these styles can reach
+// into the p-button component and override its internal styles.
+::ng-deep {
+
+  // We make the selector more specific by targeting the .p-button class
+  // that PrimeNG adds, along with our custom class. This gives our
+  // style higher priority.
+  .p-button.transaction-menu-button {
+    background: #212529 !important; // A very dark, almost black background
+    border: 1px solid #212529 !important;
+
+    // Target the icon directly to ensure it is white
+    .p-button-icon {
+      color: #ffffff !important;
+    }
+
+    // Define the style for when you hover over the button
+    &:hover {
+      background: #495057 !important;
+      border-color: #495057 !important;
+    }
+  }
 }

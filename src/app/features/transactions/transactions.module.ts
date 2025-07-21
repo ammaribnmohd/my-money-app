@@ -9,13 +9,13 @@ import { TransactionListComponent } from './components/transaction-list/transact
 import { TransactionFormComponent } from './components/transaction-form/transaction-form.component';
 import { TransactionFilterComponent } from './components/transaction-filter/transaction-filter.component';
 
-// --- PRIMENG IMPORTS ---
+// --- PRIMENG IMPORTS (Updated) ---
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { CalendarModule } from 'primeng/calendar';
-import { InputTextarea } from 'primeng/inputtextarea';
-import { DropdownModule } from 'primeng/dropdown';
+import { DatePickerModule } from 'primeng/datepicker'; // Replaced CalendarModule
+import { TextareaModule } from 'primeng/textarea';   // Replaced InputTextarea
+import { SelectModule } from 'primeng/select';         // Replaced DropdownModule
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { CardModule } from 'primeng/card';
@@ -34,13 +34,13 @@ import { MenuModule } from 'primeng/menu';
     SharedModule,
     ReactiveFormsModule,
     DynamicDialogModule,
-    // PrimeNG UI Modules
+    // PrimeNG UI Modules (Updated)
     ButtonModule,
     PaginatorModule,
     InputNumberModule,
-    CalendarModule,
-    InputTextarea,
-    DropdownModule,
+    DatePickerModule, // Use new module
+    TextareaModule,   // Use new module
+    SelectModule,     // Use new module
     SelectButtonModule,
     CardModule,
     MenuModule

@@ -9,7 +9,7 @@
 
     <div class="flex flex-col">
       <label for="category" class="mb-1 text-sm">Category*</label>
-      <p-dropdown 
+      <p-select 
         [appendTo]="'body'"
         inputId="category" 
         formControlName="categoryId" 
@@ -17,24 +17,24 @@
         optionLabel="name" 
         optionValue="id" 
         placeholder="Select a Category">
-      </p-dropdown>
+      </p-select>
     </div>
 
     <div class="flex flex-col">
        <label for="date" class="mb-1 text-sm">Date*</label>
-      <p-calendar 
+      <p-datePicker 
         [appendTo]="'body'"
         inputId="date" 
         formControlName="date" 
         [showIcon]="true" 
         dateFormat="yy-mm-dd" 
         placeholder="Select a Date">
-      </p-calendar>
+      </p-datePicker>
     </div>
     
     <div class="flex flex-col">
       <label for="description" class="mb-1 text-sm">Description (Optional)</label>
-      <textarea inputId="description" pInputTextarea formControlName="description" placeholder="e.g., Lunch with colleagues" [autoResize]="true" rows="3"></textarea>
+      <textarea inputId="description" pTextarea formControlName="description" placeholder="e.g., Lunch with colleagues" [autoResize]="true" rows="3"></textarea>
     </div>
   </div>
 

@@ -41,14 +41,14 @@ export class LocalStorageService {
     return {
       transactions: [],
       categories: [
-        // Default expense categories
-        { id: uuidv4(), name: 'Food', type: 'expense', icon: 'restaurant', color: '#FF5722' },
-        { id: uuidv4(), name: 'Transport', type: 'expense', icon: 'directions_bus', color: '#2196F3' },
-        { id: uuidv4(), name: 'Shopping', type: 'expense', icon: 'shopping_bag', color: '#9C27B0' },
-        { id: uuidv4(), name: 'Utilities', type: 'expense', icon: 'lightbulb', color: '#FFC107' },
-        // Default income categories
-        { id: uuidv4(), name: 'Salary', type: 'income', icon: 'payments', color: '#4CAF50' },
-        { id: uuidv4(), name: 'Gift', type: 'income', icon: 'card_giftcard', color: '#00BCD4' },
+        // Default expense categories (Updated with PrimeIcons)
+        { id: uuidv4(), name: 'Food', type: 'expense', icon: 'pi pi-filter-fill', color: '#FF5722' },
+        { id: uuidv4(), name: 'Transport', type: 'expense', icon: 'pi pi-car', color: '#2196F3' },
+        { id: uuidv4(), name: 'Shopping', type: 'expense', icon: 'pi pi-shopping-bag', color: '#9C27B0' },
+        { id: uuidv4(), name: 'Utilities', type: 'expense', icon: 'pi pi-lightbulb', color: '#FFC107' },
+        // Default income categories (Updated with PrimeIcons)
+        { id: uuidv4(), name: 'Salary', type: 'income', icon: 'pi pi-wallet', color: '#4CAF50' },
+        { id: uuidv4(), name: 'Gift', type: 'income', icon: 'pi pi-gift', color: '#00BCD4' },
       ]
     };
   }

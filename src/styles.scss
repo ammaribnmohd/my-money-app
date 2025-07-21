@@ -1,3 +1,6 @@
+// Import PrimeIcons to ensure all icons are available globally
+@import "primeicons/primeicons.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
