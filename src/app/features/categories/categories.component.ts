@@ -1,30 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { Category } from '../../core/models/app-models';
 import { LocalStorageService } from '../../core/services/local-storage.service';
-// NEW IMPORTS
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CategoryFormComponent, CategoryFormData } from './components/category-form/category-form.component';
-import { first } from 'rxjs/operators';
-import { ConfirmationDialogComponent, ConfirmationDialogData } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
-
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { CategoryFormComponent } from './components/category-form/category-form.component';
 
 @Component({
   selector: 'app-categories',
-  standalone: false, // This is not a standalone component
+  standalone: false,
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.scss']
 })
-export class CategoriesComponent implements OnInit {
+export class CategoriesComponent implements OnInit, OnDestroy {
   incomeCategories$!: Observable<Category[]>;
   expenseCategories$!: Observable<Category[]>;
 
-  // Inject MatDialog and MatSnackBar
+  private destroy$ = new Subject<void>();
+  private dialogRef: DynamicDialogRef | undefined;
+
   constructor(
     private localStorageService: LocalStorageService,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private dialogService: DialogService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -39,54 +38,53 @@ export class CategoriesComponent implements OnInit {
     );
   }
 
-  // REIMPLEMENT addCategory
   addCategory(type: 'income' | 'expense'): void {
-    const dialogRef = this.dialog.open(CategoryFormComponent, {
-      width: '400px',
-      data: { type: type } // Pass the type to the dialog
+    this.dialogRef = this.dialogService.open(CategoryFormComponent, {
+      header: `Add New ${type.charAt(0).toUpperCase() + type.slice(1)} Category`,
+      width: 'min(90%, 450px)',
+      data: { type: type }
     });
 
-    dialogRef.afterClosed().pipe(first()).subscribe(result => {
+    this.dialogRef.onClose.pipe(takeUntil(this.destroy$)).subscribe(result => {
       if (result) {
         this.localStorageService.addCategory({ ...result, type: type });
-        this.snackBar.open('Category added!', 'Close', { duration: 3000 });
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category added!' });
       }
     });
   }
 
-  // REIMPLEMENT editCategory
   editCategory(category: Category): void {
-    const dialogRef = this.dialog.open(CategoryFormComponent, {
-      width: '400px',
-      data: { category: category, type: category.type } // Pass the existing category and its type
+    this.dialogRef = this.dialogService.open(CategoryFormComponent, {
+      header: 'Edit Category',
+      width: 'min(90%, 450px)',
+      data: { category: category, type: category.type }
     });
 
-    dialogRef.afterClosed().pipe(first()).subscribe(result => {
+    this.dialogRef.onClose.pipe(takeUntil(this.destroy$)).subscribe(result => {
       if (result) {
         this.localStorageService.updateCategory({ ...category, ...result });
-        this.snackBar.open('Category updated!', 'Close', { duration: 3000 });
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category updated!' });
       }
     });
   }
-  
-  // REIMPLEMENT deleteCategory
-  deleteCategory(category: Category): void {
-    const dialogData: ConfirmationDialogData = {
-      title: 'Confirm Deletion',
-      message: `Are you sure you want to delete the category "${category.name}"? This could affect existing transactions.`,
-      confirmButtonText: 'Delete'
-    };
-    
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '400px',
-      data: dialogData
-    });
 
-    dialogRef.afterClosed().pipe(first()).subscribe(result => {
-      if (result) {
+  deleteCategory(category: Category): void {
+    this.confirmationService.confirm({
+      message: `Are you sure you want to delete the category "${category.name}"? This could affect existing transactions.`,
+      header: 'Confirm Deletion',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
         this.localStorageService.deleteCategory(category.id);
-        this.snackBar.open('Category deleted.', 'Close', { duration: 3000 });
+        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Category deleted.' });
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -1,12 +1,6 @@
-<form [formGroup]="transactionForm" (ngSubmit)="onSave()">
-  <h1 mat-dialog-title class="font-bold text-xl">
-    {{ data.transaction ? 'Edit Transaction' : 'Add New Transaction' }}
-  </h1>
-  <div mat-dialog-content class="space-y-5 pt-2">
-    <mat-button-toggle-group formControlName="type" aria-label="Transaction Type" class="w-full">
-      <mat-button-toggle value="expense" class="w-1/2">Expense</mat-button-toggle>
-      <mat-button-toggle value="income" class="w-1/2">Income</mat-button-toggle>
-    </mat-button-toggle-group>
+<form [formGroup]="transactionForm" (ngSubmit)="onSave()" class="p-fluid">
+  <div class="space-y-5 pt-2">
+    <p-selectButton [options]="typeOptions" formControlName="type" optionLabel="label" optionValue="value"></p-selectButton>
 
     <div class="flex flex-col">
       <label for="amount" class="mb-1 text-sm">Amount (BDT)*</label>
@@ -15,7 +9,7 @@
 
     <div class="flex flex-col">
       <label for="category" class="mb-1 text-sm">Category*</label>
-      <p-select 
+      <p-dropdown 
         [appendTo]="'body'"
         inputId="category" 
         formControlName="categoryId" 
@@ -23,19 +17,19 @@
         optionLabel="name" 
         optionValue="id" 
         placeholder="Select a Category">
-      </p-select>
+      </p-dropdown>
     </div>
 
     <div class="flex flex-col">
        <label for="date" class="mb-1 text-sm">Date*</label>
-      <p-date-picker 
+      <p-calendar 
         [appendTo]="'body'"
         inputId="date" 
         formControlName="date" 
         [showIcon]="true" 
         dateFormat="yy-mm-dd" 
         placeholder="Select a Date">
-      </p-date-picker>
+      </p-calendar>
     </div>
     
     <div class="flex flex-col">
@@ -44,10 +38,8 @@
     </div>
   </div>
 
-  <div mat-dialog-actions align="end" class="p-4">
-    <button mat-button type="button" (click)="onCancel()">Cancel</button>
-    <button mat-flat-button color="primary" type="submit" [disabled]="transactionForm.invalid">
-      Save Transaction
-    </button>
+  <div class="flex justify-end gap-2 mt-6">
+    <p-button label="Cancel" severity="secondary" (click)="onCancel()"></p-button>
+    <p-button label="Save Transaction" type="submit" [disabled]="transactionForm.invalid"></p-button>
   </div>
 </form>

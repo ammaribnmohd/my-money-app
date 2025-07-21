@@ -1,62 +1,50 @@
-<mat-sidenav-container class="h-full w-full">
-  <mat-sidenav #sidenav mode="side" opened class="w-64 p-4 border-r hidden md:block">
+<div class="flex h-full w-full">
+  <!-- Sidebar for Desktop -->
+  <div class="w-64 p-4 border-r hidden md:block bg-white">
     <h2 class="text-2xl font-bold mb-6 text-gray-800">MyMoney</h2>
-    <mat-nav-list>
+    <p-panelMenu [model]="menuItems" [style]="{'width':'100%'}"></p-panelMenu>
+  </div>
 
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="text-primary font-bold bg-indigo-50 rounded-lg">
-        <mat-icon matListItemIcon>dashboard</mat-icon>
-        Dashboard
-      </a>
-      <a mat-list-item routerLink="/transactions" routerLinkActive="text-primary font-bold bg-indigo-50 rounded-lg">
-        <mat-icon matListItemIcon>receipt_long</mat-icon>
-        Transactions
-      </a>
-      <a mat-list-item routerLink="/categories" routerLinkActive="text-primary font-bold bg-indigo-50 rounded-lg">
-        <mat-icon matListItemIcon>category</mat-icon>
-        Categories
-      </a>
-    </mat-nav-list>
-  </mat-sidenav>
+  <!-- Sidebar for Mobile (hidden, toggled by button) -->
+  <p-sidebar [(visible)]="sidebarVisible">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">MyMoney</h2>
+    <p-panelMenu [model]="menuItems" [style]="{'width':'100%'}"></p-panelMenu>
+  </p-sidebar>
 
   <!-- MAIN CONTENT AREA -->
-
-  <mat-sidenav-content class="bg-gray-50">
-
+  <div class="flex-1 flex flex-col bg-gray-50">
     <!-- TOP TOOLBAR -->
-    <mat-toolbar class="bg-primary text-white shadow-md">
-
-      <button mat-icon-button class="md:hidden" (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span>MyMoney App</span>
-    </mat-toolbar>
+    <p-toolbar styleClass="bg-primary text-white shadow-md">
+      <div class="p-toolbar-group-start">
+        <p-button type="button" icon="pi pi-bars" (click)="sidebarVisible = true" styleClass="p-button-text text-white md:hidden"></p-button>
+        <span class="text-xl font-semibold ml-2">MyMoney App</span>
+      </div>
+    </p-toolbar>
 
     <!-- CONTENT -->
-
-    <main class="p-4 md:p-6">
+    <main class="p-4 md:p-6 flex-1 overflow-y-auto">
       <router-outlet></router-outlet>
     </main>
-
-  </mat-sidenav-content>
-
-</mat-sidenav-container>
+  </div>
+</div>
 
 
-
+<!-- Bottom navigation for Mobile -->
 <div class="fixed bottom-0 left-0 w-full bg-white border-t flex justify-around items-center p-2 md:hidden">
-  <a routerLink="/dashboard" routerLinkActive="text-primary"
-    class="flex flex-col items-center text-gray-600 hover:text-primary transition-colors">
-    <mat-icon>dashboard</mat-icon>
+  <a routerLink="/dashboard" routerLinkActive="text-primary" class="flex flex-col items-center text-gray-600 hover:text-primary transition-colors">
+    <i class="pi pi-th-large text-xl"></i>
     <span class="text-xs">Dashboard</span>
   </a>
-  <a routerLink="/transactions" routerLinkActive="text-primary"
-    class="flex flex-col items-center text-gray-600 hover:text-primary transition-colors">
-    <mat-icon>receipt_long</mat-icon>
+  <a routerLink="/transactions" routerLinkActive="text-primary" class="flex flex-col items-center text-gray-600 hover:text-primary transition-colors">
+    <i class="pi pi-list text-xl"></i>
     <span class="text-xs">Transactions</span>
   </a>
-  <a routerLink="/categories" routerLinkActive="text-primary"
-    class="flex flex-col items-center text-gray-600 hover:text-primary transition-colors">
-    <mat-icon>category</mat-icon>
+  <a routerLink="/categories" routerLinkActive="text-primary" class="flex flex-col items-center text-gray-600 hover:text-primary transition-colors">
+    <i class="pi pi-tags text-xl"></i>
     <span class="text-xs">Categories</span>
   </a>
 </div>
+
+<!-- Global PrimeNG Overlays -->
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '25rem'}"></p-confirmDialog>

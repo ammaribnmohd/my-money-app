@@ -4,66 +4,66 @@
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
     <!-- Expense Categories Card -->
-    <mat-card>
-      <mat-card-header class="!flex justify-between items-center">
-        <mat-card-title>Expense Categories</mat-card-title>
-        <button mat-icon-button color="primary" (click)="addCategory('expense')" matTooltip="Add Expense Category">
-          <mat-icon>add_circle</mat-icon>
-        </button>
-      </mat-card-header>
-      <mat-card-content>
-        @if ((expenseCategories$ | async); as categories) {
-          <mat-list>
+    <p-card>
+      <ng-template pTemplate="title">
+        <div class="flex justify-between items-center">
+          <span>Expense Categories</span>
+          <p-button icon="pi pi-plus-circle" styleClass="p-button-text p-button-primary" pTooltip="Add Expense Category" (click)="addCategory('expense')"></p-button>
+        </div>
+      </ng-template>
+      @if ((expenseCategories$ | async); as categories) {
+        @if (categories.length > 0) {
+          <ul class="list-none p-0 m-0">
             @for (category of categories; track category.id; let last = $last) {
-              <mat-list-item>
-                <mat-icon matListItemIcon [style.color]="category.color">{{ category.icon || 'category' }}</mat-icon>
-                <div matListItemTitle>{{ category.name }}</div>
-                <div matListItemMeta class="flex items-center">
-                  <button mat-icon-button (click)="editCategory(category)"><mat-icon>edit</mat-icon></button>
-                  <button mat-icon-button color="warn" (click)="deleteCategory(category)"><mat-icon>delete</mat-icon></button>
+              <li class="flex items-center p-2">
+                <i class="pi {{ category.icon || 'pi-tag' }} text-xl mr-3" [style.color]="category.color"></i>
+                <div class="flex-1 font-medium">{{ category.name }}</div>
+                <div class="flex items-center">
+                  <p-button icon="pi pi-pencil" styleClass="p-button-text p-button-rounded" (click)="editCategory(category)"></p-button>
+                  <p-button icon="pi pi-trash" styleClass="p-button-text p-button-rounded p-button-danger" (click)="deleteCategory(category)"></p-button>
                 </div>
-              </mat-list-item>
+              </li>
               @if (!last) {
-                <mat-divider></mat-divider>
+                <p-divider></p-divider>
               }
-            } @empty {
-              <div class="text-center text-gray-500 p-4">No expense categories yet.</div>
             }
-          </mat-list>
+          </ul>
+        } @else {
+          <div class="text-center text-gray-500 p-4">No expense categories yet.</div>
         }
-      </mat-card-content>
-    </mat-card>
+      }
+    </p-card>
 
     <!-- Income Categories Card -->
-    <mat-card>
-      <mat-card-header class="!flex justify-between items-center">
-        <mat-card-title>Income Categories</mat-card-title>
-        <button mat-icon-button color="primary" (click)="addCategory('income')" matTooltip="Add Income Category">
-          <mat-icon>add_circle</mat-icon>
-        </button>
-      </mat-card-header>
-      <mat-card-content>
-        @if ((incomeCategories$ | async); as categories) {
-          <mat-list>
+    <p-card>
+      <ng-template pTemplate="title">
+        <div class="flex justify-between items-center">
+          <span>Income Categories</span>
+          <p-button icon="pi pi-plus-circle" styleClass="p-button-text p-button-primary" pTooltip="Add Income Category" (click)="addCategory('income')"></p-button>
+        </div>
+      </ng-template>
+      @if ((incomeCategories$ | async); as categories) {
+        @if (categories.length > 0) {
+          <ul class="list-none p-0 m-0">
             @for (category of categories; track category.id; let last = $last) {
-              <mat-list-item>
-                <mat-icon matListItemIcon [style.color]="category.color">{{ category.icon || 'category' }}</mat-icon>
-                <div matListItemTitle>{{ category.name }}</div>
-                <div matListItemMeta class="flex items-center">
-                  <button mat-icon-button (click)="editCategory(category)"><mat-icon>edit</mat-icon></button>
-                  <button mat-icon-button color="warn" (click)="deleteCategory(category)"><mat-icon>delete</mat-icon></button>
+              <li class="flex items-center p-2">
+                <i class="pi {{ category.icon || 'pi-tag' }} text-xl mr-3" [style.color]="category.color"></i>
+                <div class="flex-1 font-medium">{{ category.name }}</div>
+                <div class="flex items-center">
+                  <p-button icon="pi pi-pencil" styleClass="p-button-text p-button-rounded" (click)="editCategory(category)"></p-button>
+                  <p-button icon="pi pi-trash" styleClass="p-button-text p-button-rounded p-button-danger" (click)="deleteCategory(category)"></p-button>
                 </div>
-              </mat-list-item>
+              </li>
               @if (!last) {
-                <mat-divider></mat-divider>
+                <p-divider></p-divider>
               }
-            } @empty {
-              <div class="text-center text-gray-500 p-4">No income categories yet.</div>
             }
-          </mat-list>
+          </ul>
+        } @else {
+          <div class="text-center text-gray-500 p-4">No income categories yet.</div>
         }
-      </mat-card-content>
-    </mat-card>
+      }
+    </p-card>
 
   </div>
 </div>

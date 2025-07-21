@@ -1,69 +1,64 @@
-<!-- The wrapper div now has a permanent grid layout class -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-  
-  <!-- The loop and card structure remain the same -->
-  @for (transaction of transactions; track transaction.id) {
-    <!-- The card is now a flex container with space-between alignment -->
-    <mat-card class="flex items-center justify-between p-3 border rounded-lg shadow-sm">
-      
-      <!-- Left-side content group -->
-      <div class="flex items-center overflow-hidden">
-        <!-- Icon -->
-        <div class="flex-shrink-0 mr-4">
-          <mat-icon [style.color]="getCategory(transaction.categoryId)?.color || '#3F51B5'">
-            {{ getCategory(transaction.categoryId)?.icon || 'category' }}
-          </mat-icon>
-        </div>
-        
-        <!-- Category and Description -->
-        <div class="overflow-hidden">
-          <p class="font-bold text-gray-800 truncate">{{ getCategory(transaction.categoryId)?.name || 'Uncategorized' }}</p>
-          <p class="text-sm text-gray-500 truncate">{{ transaction.description || 'No description' }}</p>
-        </div>
-      </div>
+<!-- Menu component (used as popup) -->
+<p-menu #menu [model]="menuItems" [popup]="true" appendTo="body"></p-menu>
 
-      <!-- Right-side content group -->
-      <div class="flex items-center flex-shrink-0 ml-4">
-        <!-- Amount and Date -->
-        <div class="text-right">
-          <p class="font-bold text-lg" [ngClass]="{
-            'text-green-600': transaction.type === 'income',
-            'text-red-600': transaction.type === 'expense'
-          }">
-            @if (transaction.type === 'income') {
-              <span>+</span>
-            }
-            @if (transaction.type === 'expense') {
-              <span>-</span>
-            }
-            {{ transaction.amount | takaCurrency }}
-          </p>
-          <p class="text-sm text-gray-500">{{ transaction.date | date:'dd MMM yyyy' }}</p>
-        </div>
-        
-        <!-- Menu Button -->
-        <div class="ml-1">
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="onEdit(transaction)">
-              <mat-icon>edit</mat-icon>
-              <span>Edit</span>
-            </button>
-            <button mat-menu-item (click)="onDelete(transaction.id)">
-              <mat-icon color="warn">delete</mat-icon>
-              <span class="text-warn">Delete</span>
-            </button>
-          </mat-menu>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  @for (transaction of transactions; track transaction.id) {
+    <div class="h-full">
+      <div class="flex flex-col justify-between p-4 border rounded-lg shadow-sm bg-white h-full min-h-[160px]">
+        <!-- Top content -->
+        <div class="flex items-start justify-between">
+          <!-- Left: Icon + Category info -->
+          <div class="flex items-start overflow-hidden">
+            <div class="flex-shrink-0 mr-4 text-2xl">
+              <i [class]="getCategory(transaction.categoryId)?.icon || 'pi pi-tag'"
+                 [style.color]="getCategory(transaction.categoryId)?.color || '#3F51B5'"></i>
+            </div>
+            <div class="overflow-hidden">
+              <p class="font-bold text-gray-800 truncate">
+                {{ getCategory(transaction.categoryId)?.name || 'Uncategorized' }}
+              </p>
+              <p class="text-sm text-gray-500 truncate">
+                {{ transaction.description || 'No description' }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Right: Amount and 3-dot menu -->
+          <div class="flex items-start flex-shrink-0 ml-4 gap-2">
+            <div class="text-right">
+              <p class="font-bold text-lg" [ngClass]="{
+                'text-green-600': transaction.type === 'income',
+                'text-red-600': transaction.type === 'expense'
+              }">
+                @if (transaction.type === 'income') {
+                  <span>+</span>
+                }
+                @if (transaction.type === 'expense') {
+                  <span>-</span>
+                }
+                {{ transaction.amount | takaCurrency }}
+              </p>
+              <p class="text-sm text-gray-500">
+                {{ transaction.date | date:'dd MMM yyyy' }}
+              </p>
+            </div>
+
+            <!-- 3-dot button to open menu -->
+            <p-button
+              type="button"
+              icon="pi pi-ellipsis-h"
+              (click)="selectTransaction($event, transaction)"
+              styleClass="p-button-rounded p-button-text !text-white !bg-gray-700 !border-gray-700 hover:!bg-gray-600"
+            ></p-button>
+          </div>
         </div>
       </div>
-      
-    </mat-card>
+    </div>
   } @empty {
-    <!-- The empty state message now needs to span all columns of the grid -->
-    <mat-card class="text-center p-8 border rounded-lg col-span-full">
-      <p class="text-gray-500">No transactions match the current filters.</p>
-    </mat-card>
+    <div class="col-span-full">
+      <div class="text-center p-8 border rounded-lg bg-white">
+        <p class="text-gray-500">No transactions match the current filters.</p>
+      </div>
+    </div>
   }
 </div>

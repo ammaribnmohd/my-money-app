@@ -1,16 +1,12 @@
-<form [formGroup]="categoryForm" (ngSubmit)="onSave()">
-  <h1 mat-dialog-title class="font-bold text-xl">
-    {{ data.category ? 'Edit Category' : 'Add New Category' }}
-  </h1>
-
-  <div mat-dialog-content class="space-y-5 pt-2">
-      @if (data.category) {
+<form [formGroup]="categoryForm" (ngSubmit)="onSave()" class="p-fluid">
+  <div class="space-y-5 pt-2">
+    @if (config.data.category) {
       <p class="text-sm text-gray-600">
-        You are editing an <span class="font-bold">{{ data.type }}</span> category.
+        You are editing an <span class="font-bold">{{ config.data.type }}</span> category.
       </p>
     } @else {
       <p class="text-sm text-gray-600">
-        You are adding an <span class="font-bold">{{ data.type }}</span> category.
+        You are adding a new <span class="font-bold">{{ config.data.type }}</span> category.
       </p>
     }
 
@@ -23,11 +19,11 @@
       }
     </div>
 
-    <!-- Icon Name  -->
+    <!-- Icon Name -->
     <div class="flex flex-col">
-      <label for="icon" class="mb-1 text-sm">Material Icon Name (Optional)</label>
-      <input id="icon" type="text" pInputText formControlName="icon" placeholder="e.g., shopping_cart" />
-      <small class="text-gray-500 mt-1">Find icons at fonts.google.com/icons</small>
+      <label for="icon" class="mb-1 text-sm">Prime Icon Name (Optional)</label>
+      <input id="icon" type="text" pInputText formControlName="icon" placeholder="e.g., pi-shopping-cart" />
+      <small class="text-gray-500 mt-1">Find icons at primeng.org/icons</small>
     </div>
 
     <!-- Color Picker -->
@@ -37,10 +33,8 @@
     </div>
   </div>
 
-  <div mat-dialog-actions align="end" class="p-4">
-    <button mat-button type="button" (click)="onCancel()">Cancel</button>
-    <button mat-flat-button color="primary" type="submit" [disabled]="categoryForm.invalid">
-      Save
-    </button>
+  <div class="flex justify-end gap-2 mt-6">
+    <p-button label="Cancel" severity="secondary" (click)="onCancel()"></p-button>
+    <p-button label="Save" type="submit" [disabled]="categoryForm.invalid"></p-button>
   </div>
 </form>

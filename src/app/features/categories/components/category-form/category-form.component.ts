@@ -1,11 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Category } from '../../../../core/models/app-models';
 
-
 export interface CategoryFormData {
-  category?: Category; 
+  category?: Category;
   type: 'income' | 'expense';
 }
 
@@ -17,16 +16,18 @@ export interface CategoryFormData {
 })
 export class CategoryFormComponent implements OnInit {
   categoryForm: FormGroup;
+  data: CategoryFormData;
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<CategoryFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CategoryFormData
+    public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig
   ) {
+    this.data = this.config.data;
     this.categoryForm = this.fb.group({
       name: ['', Validators.required],
-      icon: [''], 
-      color: ['#3F51B5'] 
+      icon: ['pi-tag'],
+      color: ['#3F51B5']
     });
   }
 
@@ -38,13 +39,14 @@ export class CategoryFormComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.dialogRef.close();
+    this.ref.close();
   }
 
   onSave(): void {
     if (this.categoryForm.invalid) {
+      this.categoryForm.markAllAsTouched();
       return;
     }
-    this.dialogRef.close(this.categoryForm.value);
+    this.ref.close(this.categoryForm.value);
   }
 }

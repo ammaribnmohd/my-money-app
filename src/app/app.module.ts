@@ -1,44 +1,48 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-//material imports
-import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-//primeNG imports
+// PrimeNG Services
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import { DialogService } from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+
+// PrimeNG Modules for Root Component
+import { ToolbarModule } from 'primeng/toolbar';
+import { SidebarModule } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
     AppComponent,
-    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-  
-    MatToolbarModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule
-    
+    ToolbarModule,
+    SidebarModule,
+    ButtonModule,
+    PanelMenuModule,
+    ToastModule,
+    ConfirmDialogModule
   ],
    providers: [
     providePrimeNG({
       theme: {
         preset: Aura
       }
-    })
+    }),
+    DialogService,
+    MessageService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

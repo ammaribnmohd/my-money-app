@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { TakaCurrencyPipe } from './pipes/taka-currency.pipe';
-import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
-import {  MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   imports: [
-    
-    TakaCurrencyPipe ,
-    MatDialogModule,
-    MatButtonModule
+    CommonModule,
+    TakaCurrencyPipe,
+    ConfirmDialogModule,
+    ButtonModule
   ],
   exports: [
     TakaCurrencyPipe,
-    ConfirmationDialogComponent
+    ConfirmDialogModule
   ],
-  declarations: [
-    ConfirmationDialogComponent
-  ]
+  declarations: []
 })
 export class SharedModule { }

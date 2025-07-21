@@ -5,11 +5,9 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { SharedModule } from '../../shared/shared.module';
 
-// Material Imports
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-
+// PrimeNG Imports
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
 
 @NgModule({
@@ -20,12 +18,9 @@ import { ChartModule } from 'primeng/chart';
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
-    MatCardModule,
-    MatIconModule,
-    MatButtonModule,
-    
+    CardModule,
+    ButtonModule,
     ChartModule
   ]
-  
 })
 export class DashboardModule { }
