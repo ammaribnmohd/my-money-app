@@ -11,7 +11,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 
-// PrimeNG Modules for Root Component
+// PrimeNG Modules 
 import { ToolbarModule } from 'primeng/toolbar';
 import { SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
